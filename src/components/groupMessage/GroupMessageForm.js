@@ -1,16 +1,18 @@
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useGroup } from '../../context/group/groupContext';
+import { useMessage } from '../../context/message/messageContext';
 import GroupDetail from './GroupDetail';
 
 const GroupMessageForm = () => {
   const { fetchGroups, groups } = useGroup();
+  const { sendGroupMessage } = useMessage();
   const {
     register,
     handleSubmit,
     reset,
     control,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm({
     mode: 'all',
   });
@@ -22,7 +24,7 @@ const GroupMessageForm = () => {
   }, []);
 
   const onSubmit = async (data) => {
-    console.log(data);
+    sendGroupMessage(data);
     reset();
   };
 
@@ -48,7 +50,7 @@ const GroupMessageForm = () => {
                 </select>
                 <label htmlFor='group'>Select Group Name</label>
               </div>
-              {errors.name && (
+              {errors.group && (
                 <span className='text-danger'>This field is required</span>
               )}
             </div>

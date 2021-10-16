@@ -10,15 +10,18 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import GroupState from './context/group/groupContext';
 import ContactState from './context/contact/contactContext';
+import MessageState from './context/message/messageContext';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <GroupState>
-        <ContactState>
-          <ToastContainer />
-          <App />
-        </ContactState>
+        <MessageState>
+          <ContactState>
+            <ToastContainer />
+            <App />
+          </ContactState>
+        </MessageState>
       </GroupState>
     </BrowserRouter>
   </React.StrictMode>,

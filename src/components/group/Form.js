@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useGroup } from '../../context/group/groupContext';
 
 const Form = () => {
-  const { createGroup, updateGroup, fetchGroups, group } = useGroup();
+  const { createGroup, updateGroup, group } = useGroup();
 
   const {
     register,

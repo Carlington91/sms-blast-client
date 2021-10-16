@@ -32,7 +32,6 @@ const GroupState = ({ children }) => {
       const { data } = await axios.get(`${apiUrl}/groups`, {
         headers: {
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
         },
       });
 
