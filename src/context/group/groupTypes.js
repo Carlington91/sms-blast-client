@@ -1,0 +1,8 @@
+export const CREATE_GROUP = 'CREATE_GROUP';
+export const FETCH_GROUPS = 'FETCH_GROUPS';
+export const FETCH_GROUP = 'FETCH_GROUP';
+export const UPDATE_GROUP = 'UPDATE_GROUP';
+export const DELETE_GROUP = 'DELETE_GROUP';
+export const GROUP_ERROR = 'GROUP_ERROR';
+export const SET_GROUP_UPDATE_FORM = 'SET_GROUP_UPDATE_FORM';
+export const CLEAR_GROUP_FORM = 'CLEAR_GROUP_FORM';
