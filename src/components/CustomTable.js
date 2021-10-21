@@ -92,7 +92,7 @@ const CustomTable = memo((props) => {
           }}
         />
       </table>
-      <div className='bottom d-flex justify-content-end'>
+      <div className='bottom d-flex justify-content-end mt-5'>
         {rowsPerPage <= data.length && (
           <Pagination
             classes={classes}

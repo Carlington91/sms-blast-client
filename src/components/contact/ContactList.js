@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useContact } from '../../context/contact/contactContext';
 import { useGroup } from '../../context/group/groupContext';
 import CustomTable from '../CustomTable';
@@ -7,11 +7,18 @@ const ContactList = () => {
   const { fetchContacts, contacts } = useContact();
   const { fetchGroups, groups } = useGroup();
 
+  const [groupId, setGroupId] = useState('');
+
+  useMemo(() => {
+    setGroupId(groups[0]?._id);
+  }, [groups]);
+
   useEffect(() => {
-    fetchContacts();
-    return () => fetchContacts();
+    fetchContacts(groupId);
+
+    return () => fetchContacts(groupId);
     //eslint-disable-next-line
-  }, []);
+  }, [groupId]);
 
   useEffect(() => {
     fetchGroups();
@@ -19,6 +26,8 @@ const ContactList = () => {
     return () => fetchGroups();
     //eslint-disable-next-line
   }, []);
+
+  // console.log('groupId: ', group);
 
   const handleEdit = (id) => console.log(id);
 
@@ -42,7 +51,7 @@ const ContactList = () => {
       title: 'Action',
       prop: '_id',
       cell: (row) => (
-        <>
+        <div className='d-flex'>
           <button
             className='btn btn-primary btn-sm me-2'
             onClick={() => handleEdit(row._id)}
@@ -55,7 +64,7 @@ const ContactList = () => {
           >
             delete
           </button>
-        </>
+        </div>
       ),
     },
   ];
@@ -65,22 +74,29 @@ const ContactList = () => {
       <div className='card shadow-sm py-3'>
         <div className='card-body'>
           <div className='mb-5'>
+            <label htmlFor='group' className='form-label'>
+              Contacts are filtered by groups
+            </label>
             <div className='form-floating'>
-              <input
-                class='form-control'
-                list='datalistOptions'
+              <select
+                className='form-select'
                 id='group'
+                name='groupId'
+                value={groupId}
                 placeholder='Type to search...'
-              />
-              <label htmlFor='group' class='form-label'>
-                Select Group
+                onChange={(e) => setGroupId(e.target.value)}
+              >
+                {groups?.map((group) => (
+                  <option key={group._id} value={group._id}>
+                    {group.name}
+                  </option>
+                ))}
+              </select>
+
+              <label htmlFor='group' className='form-label'>
+                Type to search or select group
               </label>
             </div>
-            <datalist id='datalistOptions'>
-              {groups.map((group) => (
-                <option>{group.name}</option>
-              ))}
-            </datalist>
           </div>
 
           <CustomTable
@@ -90,7 +106,6 @@ const ContactList = () => {
             rowsPerPageOption={[5, 10, 15, 20]}
             classes={{
               table: 'table table-striped table-hover table-responsive',
-              td: 'py-3',
             }}
           />
         </div>

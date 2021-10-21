@@ -12,8 +12,8 @@ const Login = () => {
   };
 
   return (
-    <div className='auth vw-100 vh-100 bg-light d-flex justify-content-center align-items-center'>
-      <div className='col-sm-12 col-md-4 card shadow'>
+    <section className='auth vw-100 vh-100 bg-light d-flex justify-content-center align-items-center'>
+      <div className='col-sm-12 col-md-4 card auth-form border-0'>
         <div className='card-body p-5'>
           <h1 className='text-center'>Login</h1>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -50,7 +50,7 @@ const Login = () => {
           </form>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

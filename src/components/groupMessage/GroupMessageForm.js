@@ -6,7 +6,8 @@ import GroupDetail from './GroupDetail';
 
 const GroupMessageForm = () => {
   const { fetchGroups, groups } = useGroup();
-  const { sendGroupMessage } = useMessage();
+  const { sendGroupMessage, fetchPresetMessages, presetMessages } =
+    useMessage();
   const {
     register,
     handleSubmit,
@@ -20,6 +21,12 @@ const GroupMessageForm = () => {
   useEffect(() => {
     fetchGroups();
     return () => fetchGroups();
+    //eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
+    fetchPresetMessages();
+    return () => fetchPresetMessages();
     //eslint-disable-next-line
   }, []);
 
@@ -64,9 +71,9 @@ const GroupMessageForm = () => {
                   {...register('message', { required: true })}
                 >
                   <option value=''>Select...</option>
-                  {groups.map((group) => (
-                    <option key={group._id} value={group.name}>
-                      {group.name}
+                  {presetMessages.map((pesetMessage) => (
+                    <option key={pesetMessage._id} value={pesetMessage.content}>
+                      {pesetMessage.title}
                     </option>
                   ))}
                 </select>

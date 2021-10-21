@@ -12,15 +12,15 @@ import {
 const groupReducer = (state, { type, payload }) => {
   switch (type) {
     case CREATE_GROUP:
-      return { ...state, group: '' };
+      return { ...state, msg: payload.msg };
     case FETCH_GROUPS:
-      return { groups: payload.groups };
+      return { groups: payload.results };
     case FETCH_GROUP:
       return { ...state, group: payload.group };
     case UPDATE_GROUP:
-      return { ...state, success: payload.success };
+      return { ...state, success: payload.success, msg: payload.msg };
     case DELETE_GROUP:
-      return { ...state, success: payload.success };
+      return { ...state, success: payload.success, msg: payload.msg };
     case SET_GROUP_UPDATE_FORM: {
       return { ...state, group: payload };
     }

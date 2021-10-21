@@ -1,28 +1,28 @@
 import { useEffect } from 'react';
 import { FaEdit, FaRegTrashAlt } from 'react-icons/fa';
+import { useSender } from '../../context/sender/senderContext';
 import CustomTable from '../CustomTable';
-import { useGroup } from '../../context/group/groupContext';
 
-const GroupList = () => {
-  const { fetchGroups, deleteGroup, setGroupUpdateForm, groups } = useGroup();
+const SenderList = () => {
+  const { fetchSenders, deleteSender, setSenderUpdateForm, senders } =
+    useSender();
 
   useEffect(() => {
-    fetchGroups();
-    return () => fetchGroups();
+    fetchSenders();
+    return () => fetchSenders();
     //eslint-disable-next-line
   }, []);
 
   const handleEdit = (val) => {
-    setGroupUpdateForm(val);
+    setSenderUpdateForm(val);
   };
 
   const handleDelete = (id) => {
-    deleteGroup(id);
+    deleteSender(id);
   };
 
   const header = [
     { title: 'Name', prop: 'name', sortable: true },
-    { title: 'Description', prop: 'desc' },
     {
       title: 'Action',
       prop: '_id',
@@ -50,7 +50,7 @@ const GroupList = () => {
         <div className='card-body'>
           <CustomTable
             tableHeaders={header}
-            tableBody={groups ? groups : []}
+            tableBody={senders ? senders : []}
             rowsPerPage={5}
             rowsPerPageOption={[5, 10, 15, 20]}
           />
@@ -60,4 +60,4 @@ const GroupList = () => {
   );
 };
 
-export default GroupList;
+export default SenderList;

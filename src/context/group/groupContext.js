@@ -1,7 +1,12 @@
 import { createContext, useContext, useReducer } from 'react';
-import axios from 'axios';
-import { apiUrl } from '../../config/apiUrl';
-import { toast } from 'react-toastify';
+import {
+  fetchDataList,
+  fetchData,
+  createData,
+  updateData,
+  deleteData,
+} from '../../helpers/crud';
+
 import groupReducer from './groupReducer';
 import {
   CREATE_GROUP,
@@ -21,130 +26,45 @@ const GroupState = ({ children }) => {
   const intialState = {
     groups: [],
     group: {},
+    msg: '',
     success: '',
     error: '',
   };
 
   const [state, dispatch] = useReducer(groupReducer, intialState);
 
-  const fetchGroups = async () => {
-    try {
-      const { data } = await axios.get(`${apiUrl}/groups`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+  const fetchGroups = async () =>
+    await fetchDataList(`/groups`, dispatch, FETCH_GROUPS, GROUP_ERROR);
 
-      dispatch({
-        type: FETCH_GROUPS,
-        payload: data,
-      });
-    } catch (error) {
-      console.log(error);
-      // dispatch({
-      //   type: GROUP_ERROR,
-      //   payload: error.response.data,
-      // });
-    }
-  };
-
-  const fetchGroup = async (id) => {
-    try {
-      const { data } = await axios.get(`${apiUrl}/groups?id=${id}`, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      dispatch({
-        type: FETCH_GROUP,
-        payload: data,
-      });
-    } catch (error) {
-      console.log(error);
-      dispatch({
-        type: GROUP_ERROR,
-        payload: error.response.data.error,
-      });
-    }
-  };
+  const fetchGroup = (id) =>
+    fetchData(`/groups?id=${id}`, dispatch, FETCH_GROUP, GROUP_ERROR);
 
   const createGroup = async (groupData) => {
-    try {
-      const { data } = await axios.post(`${apiUrl}/groups`, groupData, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      dispatch({
-        type: CREATE_GROUP,
-        payload: data,
-      });
-      if (data) toast.success('Group created successfully');
-      fetchGroups();
-    } catch (error) {
-      console.log(error);
-      // dispatch({
-      //   type: GROUP_ERROR,
-      //   payload: error.response.data,
-      // });
-    }
+    await createData(`/groups`, dispatch, groupData, CREATE_GROUP, GROUP_ERROR);
+    fetchGroups();
   };
 
   const updateGroup = async (id, groupData) => {
-    try {
-      const { data } = await axios.put(`${apiUrl}/groups?id=${id}`, groupData, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      dispatch({
-        type: UPDATE_GROUP,
-        payload: data,
-      });
-      if (data) toast.success('Group updated successfully');
-      fetchGroups();
-    } catch (error) {
-      console.log(error);
-      if (error) toast.error('Error updating group');
-      dispatch({
-        type: GROUP_ERROR,
-        payload: error.response.data.error,
-      });
-    }
+    await updateData(
+      `/groups?id=${id}`,
+      dispatch,
+      groupData,
+      UPDATE_GROUP,
+      GROUP_ERROR,
+    );
+    fetchGroups();
   };
 
   const deleteGroup = async (id) => {
-    try {
-      const { data } = await axios.delete(`${apiUrl}/groups?id=${id}`, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      dispatch({
-        type: DELETE_GROUP,
-        payload: data,
-      });
-      if (data) toast.success('Group deleted successfully');
-      fetchGroups();
-    } catch (error) {
-      console.log(error);
-      if (error) toast.error('Error deleting group');
-      // dispatch({
-      //   type: GROUP_ERROR,
-      //   payload: error.response.data.error,
-      // });
-    }
+    await deleteData(`/groups?id=${id}`, dispatch, DELETE_GROUP, GROUP_ERROR);
+    fetchGroups();
   };
 
   const setGroupUpdateForm = async (data) => {
-    try {
-      dispatch({
-        type: SET_GROUP_UPDATE_FORM,
-        payload: data,
-      });
-    } catch (error) {
-      console.log(error);
-      // dispatch({
-      //   type: GROUP_ERROR,
-      //   payload: error.response.data.error,
-      // });
-    }
+    dispatch({
+      type: SET_GROUP_UPDATE_FORM,
+      payload: data,
+    });
   };
 
   const clearGroupForm = async () => {
@@ -158,6 +78,7 @@ const GroupState = ({ children }) => {
       value={{
         groups: state.groups,
         group: state.group,
+        msg: state.msg,
         success: state.success,
         error: state.error,
         createGroup,

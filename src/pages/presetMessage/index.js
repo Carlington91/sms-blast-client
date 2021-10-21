@@ -1,5 +1,5 @@
 import Layout from '../../components/layout';
-import MessageList from '../../components/message/MessageList';
+import MessageList from '../../components/presetMessage/MessageList';
 import MetaData from '../../components/MetaData';
 import PageTitle from '../../components/pageTitle';
 

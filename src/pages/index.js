@@ -2,15 +2,19 @@ import DashboardPage from './dashboard';
 import CreateContactPage from './contact/create';
 import ContactListPage from './contact';
 
-import CreateMessagePage from './messages/create';
-import MessagesPage from './messages';
+import CreatePresetMessagePage from './presetMessage/create';
+import EditPresetMessagePage from './presetMessage/edit';
+// import PresetMessagePage from './presetMessage/create';
+import PresetMessagesPage from './presetMessage';
+
 import GroupPage from './groups';
 import SenderIDsPage from './groups/sendersID';
 import GroupMessagePage from './messages/groupMessages';
 import QuickMessagePage from './messages/quickMessage';
 
+import Register from './auth/Register';
 import Login from './auth/Login';
-import Register from './users/Register';
+import Profile from './users/Profile';
 
 export {
   DashboardPage,
@@ -18,8 +22,10 @@ export {
   ContactListPage,
   Login,
   Register,
-  CreateMessagePage,
-  MessagesPage,
+  Profile,
+  CreatePresetMessagePage,
+  EditPresetMessagePage,
+  PresetMessagesPage,
   GroupPage,
   SenderIDsPage,
   GroupMessagePage,

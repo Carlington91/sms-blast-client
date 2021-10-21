@@ -3,83 +3,99 @@ import axios from 'axios';
 import { apiUrl } from '../../config/apiUrl';
 import { toast } from 'react-toastify';
 import messageReducer from './messageReducer';
-import { SEND_GROUP_MESSAGE } from './messageTypes';
+import {
+  createData,
+  fetchData,
+  fetchDataList,
+  updateData,
+} from '../../helpers/crud';
+import {
+  CREATE_PRESET_MESSAGE,
+  FETCH_PRESET_MESSAGES,
+  FETCH_PRESET_MESSAGE,
+  UPDATE_PRESET_MESSAGE,
+  DELETE_PRESET_MESSAGE,
+  PRESET_MESSAGE_ERROR,
+  SEND_GROUP_MESSAGE,
+  GROUP_MESSAGE_ERROR,
+} from './messageTypes';
 
 export const messageContext = createContext();
 export const useMessage = () => useContext(messageContext);
 
 const MessageState = ({ children }) => {
   const intialState = {
+    presetMessages: [],
+    presetMessage: {},
     success: '',
     error: '',
+    loading: true,
   };
 
   const [state, dispatch] = useReducer(messageReducer, intialState);
 
-  // const createGroup = async (groupData) => {
-  //   try {
-  //     const { data } = await axios.post(`${apiUrl}/groups`, groupData, {
-  //       headers: { 'Content-Type': 'application/json' },
-  //     });
+  const fetchPresetMessages = async () =>
+    fetchDataList(
+      `/messages/preset-messages`,
+      dispatch,
+      FETCH_PRESET_MESSAGES,
+      PRESET_MESSAGE_ERROR,
+    );
 
-  //     dispatch({
-  //       type: CREATE_GROUP,
-  //       payload: data,
-  //     });
-  //     if (data) toast.success('Group created successfully');
-  //     fetchGroups();
-  //   } catch (error) {
-  //     console.log(error);
-  //     // dispatch({
-  //     //   type: GROUP_ERROR,
-  //     //   payload: error.response.data,
-  //     // });
-  //   }
-  // };
+  const fetchPresetMessage = (id) => {
+    fetchData(
+      `/messages/preset-message?id=${id}`,
+      dispatch,
+      FETCH_PRESET_MESSAGE,
+      PRESET_MESSAGE_ERROR,
+    );
+  };
 
-  // const updateGroup = async (id, groupData) => {
-  //   try {
-  //     const { data } = await axios.put(`${apiUrl}/groups?id=${id}`, groupData, {
-  //       headers: { 'Content-Type': 'application/json' },
-  //     });
+  const createPresetMessage = async (messageData) => {
+    await createData(
+      `/messages/create-preset-message`,
+      dispatch,
+      messageData,
+      CREATE_PRESET_MESSAGE,
+      PRESET_MESSAGE_ERROR,
+    );
+    fetchPresetMessages();
+  };
 
-  //     dispatch({
-  //       type: UPDATE_GROUP,
-  //       payload: data,
-  //     });
-  //     if (data) toast.success('Group updated successfully');
-  //     fetchGroups();
-  //   } catch (error) {
-  //     console.log(error);
-  //     if (error) toast.error('Error updating group');
-  //     dispatch({
-  //       type: GROUP_ERROR,
-  //       payload: error.response.data.error,
-  //     });
-  //   }
-  // };
+  const updatePresetMessage = async (id, presetMessageData) => {
+    updateData(
+      `/messages/preset-message?id=${id}`,
+      dispatch,
+      presetMessageData,
+      UPDATE_PRESET_MESSAGE,
+      PRESET_MESSAGE_ERROR,
+    );
+  };
 
-  // const deleteGroup = async (id) => {
-  //   try {
-  //     const { data } = await axios.delete(`${apiUrl}/groups?id=${id}`, {
-  //       headers: { 'Content-Type': 'application/json' },
-  //     });
+  const deletePresetMessage = async (id) => {
+    try {
+      const { data } = await axios.delete(
+        `${apiUrl}/messages/preset-message?id=${id}`,
+        {
+          headers: { 'Content-Type': 'application/json' },
+        },
+      );
 
-  //     dispatch({
-  //       type: DELETE_GROUP,
-  //       payload: data,
-  //     });
-  //     if (data) toast.success('Group deleted successfully');
-  //     fetchGroups();
-  //   } catch (error) {
-  //     console.log(error);
-  //     if (error) toast.error('Error deleting group');
-  //     // dispatch({
-  //     //   type: GROUP_ERROR,
-  //     //   payload: error.response.data.error,
-  //     // });
-  //   }
-  // };
+      dispatch({
+        type: DELETE_PRESET_MESSAGE,
+        payload: data,
+      });
+      if (data) toast.success('Group deleted successfully');
+      fetchPresetMessages();
+    } catch (error) {
+      console.log(error);
+      if (error) toast.error('Error deleting group');
+      // dispatch({
+      //   type: GROUP_ERROR,
+      //   payload: error.response.data.error,
+      // });
+    }
+  };
 
   // const setGroupUpdateForm = async (data) => {
   //   try {
@@ -103,39 +119,28 @@ const MessageState = ({ children }) => {
   // };
 
   const sendGroupMessage = async (groupMessageData) => {
-    console.log('groupMessage: ', groupMessageData);
-    try {
-      const { data } = await axios.post(
-        `${apiUrl}/group-message`,
-        groupMessageData,
-        {
-          headers: { 'Content-Type': 'application/json' },
-        },
-      );
-
-      dispatch({
-        type: SEND_GROUP_MESSAGE,
-        payload: data,
-      });
-      if (data) toast.success(data.message);
-    } catch (error) {
-      console.log(error);
-      // dispatch({
-      //   type: GROUP_ERROR,
-      //   payload: error.response.data,
-      // });
-    }
+    await createData(
+      `/messages/send-group-message`,
+      dispatch,
+      groupMessageData,
+      SEND_GROUP_MESSAGE,
+      GROUP_MESSAGE_ERROR,
+    );
   };
 
   return (
     <messageContext.Provider
       value={{
-        // groups: state.groups,
-        // group: state.group,
+        presetMessages: state.presetMessages,
+        presetMessage: state.presetMessage,
         success: state.success,
         error: state.error,
-        // createGroup,
-        // fetchGroups,
+        loading: state.loading,
+        createPresetMessage,
+        fetchPresetMessages,
+        fetchPresetMessage,
+        updatePresetMessage,
+        deletePresetMessage,
         // fetchGroup,
         // updateGroup,
         // deleteGroup,

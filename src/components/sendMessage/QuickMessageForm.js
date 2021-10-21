@@ -1,11 +1,22 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSender } from '../../context/sender/senderContext';
 
 const QuickMessageForm = () => {
+  const { fetchSenders, senders } = useSender();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: 'all' });
+
+  useEffect(() => {
+    fetchSenders();
+
+    return () => fetchSenders();
+    //eslint-disable-next-line
+  }, []);
 
   const onSubmit = (data) => console.log(data);
 
@@ -21,9 +32,9 @@ const QuickMessageForm = () => {
                 {...register('senderId', { required: true })}
               >
                 <option value=''>Choose Sender ID</option>
-                <option value='1'>One</option>
-                <option value='2'>Two</option>
-                <option value='3'>Three</option>
+                {senders.map((sender) => (
+                  <option value={sender.name}>{sender.name}</option>
+                ))}
               </select>
               <label htmlFor='senderId' className='form-label fw-bold'>
                 Choose Sender ID

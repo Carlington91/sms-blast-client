@@ -1,13 +1,13 @@
-import Form from '../../components/message/Form';
+import Form from '../../components/presetMessage/Form';
 import Layout from '../../components/layout';
 import PageTitle from '../../components/pageTitle';
 import MetaData from '../../components/MetaData';
 
-const CreateMessagePage = () => {
+const CreatePresetMessagePage = () => {
   const data = {
-    title: 'Preset Message',
+    title: 'Create Preset Message',
     metaData: {
-      title: 'Preset Message',
+      title: 'Create Preset Message',
     },
   };
 
@@ -15,9 +15,9 @@ const CreateMessagePage = () => {
     <Layout>
       <MetaData metaData={data.metaData} />
       <PageTitle title={data.title} />
-      <Form />
+      <Form create />
     </Layout>
   );
 };
 
-export default CreateMessagePage;
+export default CreatePresetMessagePage;

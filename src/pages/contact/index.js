@@ -6,9 +6,9 @@ import PageTitle from '../../components/pageTitle';
 
 const ContactListPage = () => {
   const data = {
-    title: 'Groups',
+    title: 'Contacts',
     metaData: {
-      title: 'Groups',
+      title: 'Contacts',
     },
   };
   return (

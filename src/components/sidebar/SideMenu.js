@@ -23,12 +23,12 @@ const SideMenu = () => {
           <span className='sidebar-label'>Messages</span>
           <SidebarOption
             label='Create Message'
-            to='/message/new'
+            to='/create-preset-message'
             Icon={BiMessageAdd}
           />
           <SidebarOption
             label='View Message'
-            to='/messages'
+            to='/preset-messages'
             Icon={BiMessageDetail}
           />
         </div>
