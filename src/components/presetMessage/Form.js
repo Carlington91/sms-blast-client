@@ -37,7 +37,7 @@ const Form = ({ presetMessageData, create }) => {
   };
 
   return (
-    <div className='card p-4 shadow-sm col-md-8'>
+    <div className='card p-md-4 col-md-10 col-lg-8'>
       <div className='card-body'>
         {create ? (
           <h2 className='fs-5 mb-3'>Add Preset Message</h2>

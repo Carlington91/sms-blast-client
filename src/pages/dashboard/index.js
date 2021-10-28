@@ -1,13 +1,13 @@
 import React from 'react';
-import Layout from '../components/layout';
-import MetaData from '../components/MetaData';
-import PageTitle from '../components/pageTitle';
+import Layout from '../../components/layout/Layout';
+import MetaData from '../../components/MetaData';
+import PageTitle from '../../components/pageTitle';
 
 const DashboardPage = () => {
   const data = {
-    title: 'Groups',
+    title: 'Dashboard',
     metaData: {
-      title: 'Groups',
+      title: 'Dashboard',
     },
   };
 

@@ -1,14 +1,27 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router-dom';
+import { useAuth } from '../../context/auth/authContext';
 
 const Login = () => {
+  const { login, user, error } = useAuth();
+  const history = useHistory();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ mode: 'all' });
 
+  useEffect(() => {
+    return !user ? false : history.push('/dashboard');
+
+    //eslint-disable-next-line
+  }, [user, history]);
+
   const onSubmit = (data) => {
-    console.log(data);
+    login(data);
+    user && history.push('/dashboard');
   };
 
   return (
@@ -16,6 +29,7 @@ const Login = () => {
       <div className='col-sm-12 col-md-4 card auth-form border-0'>
         <div className='card-body p-5'>
           <h1 className='text-center'>Login</h1>
+          {error && error}
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className='mb-3'>
               <label htmlFor='email'>Email</label>

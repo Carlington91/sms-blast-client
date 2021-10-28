@@ -15,6 +15,7 @@ import QuickMessagePage from './messages/quickMessage';
 import Register from './auth/Register';
 import Login from './auth/Login';
 import Profile from './users/Profile';
+import NotFoundPage from './NotFoundPage';
 
 export {
   DashboardPage,
@@ -30,4 +31,5 @@ export {
   SenderIDsPage,
   GroupMessagePage,
   QuickMessagePage,
+  NotFoundPage,
 };

@@ -1,4 +1,4 @@
-import Layout from '../../components/layout';
+import Layout from '../../components/layout/Layout';
 import PageTitle from '../../components/pageTitle';
 import Form from '../../components/sender/Form';
 import SenderList from '../../components/sender/SenderList';

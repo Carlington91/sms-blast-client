@@ -7,9 +7,10 @@ import {
   LOGIN,
   REGISTER,
   LOGOUT,
+  IS_LOGGED_IN,
   // FORGOT_PASSWORD,
   // RESET_PASSWORD,
-  // AUTH_ERROR,
+  AUTH_ERROR,
 } from './authTypes';
 
 export const authContext = createContext();
@@ -18,6 +19,8 @@ export const useAuth = () => useContext(authContext);
 const AuthState = ({ children }) => {
   const intialState = {
     user: null,
+    loading: true,
+    success: '',
     error: '',
   };
 
@@ -37,7 +40,7 @@ const AuthState = ({ children }) => {
     } catch (error) {
       console.log(error);
       // dispatch({
-      //   type: CONTACT_ERROR,
+      //   type:  AUTH_ERROR,
       //   payload: error.response.data,
       // });
     }
@@ -45,7 +48,7 @@ const AuthState = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const { data } = await axios.post(`${apiUrl}/login`, credentials, {
+      const { data } = await axios.post(`${apiUrl}/auth/login`, credentials, {
         headers: { 'Content-Type': 'application/json' },
       });
 
@@ -54,18 +57,17 @@ const AuthState = ({ children }) => {
         payload: data,
       });
     } catch (error) {
-      console.log(error);
-      // dispatch({
-      //   type: CONTACT_ERROR,
-      //   payload: error.response.data,
-      // });
+      console.log(error.response);
+      dispatch({
+        type: AUTH_ERROR,
+        payload: error.response.data,
+      });
     }
   };
 
-  const logout = async (userData) => {
-    console.log(userData);
+  const logout = async () => {
     try {
-      const { data } = await axios.post(`${apiUrl}/contacts`, userData, {
+      const { data } = await axios.get(`${apiUrl}/auth/logout`, {
         headers: { 'Content-Type': 'application/json' },
       });
 
@@ -82,14 +84,29 @@ const AuthState = ({ children }) => {
     }
   };
 
+  const isLoggedIn = async () => {
+    try {
+      const { data } = await axios.get(`${apiUrl}/auth/loggedIn`);
+      dispatch({
+        type: IS_LOGGED_IN,
+        payload: data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <authContext.Provider
       value={{
         user: state.user,
+        loading: state.loading,
+        success: state.success,
         error: state.error,
         signUp,
         login,
         logout,
+        isLoggedIn,
       }}
     >
       {children}

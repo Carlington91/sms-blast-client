@@ -1,4 +1,4 @@
-import Layout from '../../components/layout';
+import Layout from '../../components/layout/Layout';
 import MessageList from '../../components/presetMessage/MessageList';
 import MetaData from '../../components/MetaData';
 import PageTitle from '../../components/pageTitle';

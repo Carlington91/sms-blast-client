@@ -1,7 +1,7 @@
 import { FaPlus } from 'react-icons/fa';
 import Form from '../../components/group/Form';
 import GroupList from '../../components/group/GroupList';
-import Layout from '../../components/layout';
+import Layout from '../../components/layout/Layout';
 import MetaData from '../../components/MetaData';
 import Modal from '../../components/Modal';
 import PageTitle from '../../components/pageTitle';

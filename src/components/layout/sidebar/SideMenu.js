@@ -11,7 +11,7 @@ import { HiClipboardList } from 'react-icons/hi';
 
 const SideMenu = () => {
   return (
-    <nav>
+    <nav className='pt-sm-3 pt-md-5'>
       <ul className='nav flex-column'>
         <SidebarOption
           label='Dashboard'

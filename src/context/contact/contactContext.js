@@ -4,6 +4,14 @@ import { apiUrl } from '../../config/apiUrl';
 import contactReducer from './contactReducer';
 
 import {
+  fetchDataList,
+  fetchData,
+  createData,
+  updateData,
+  deleteData,
+} from '../../helpers/crud';
+
+import {
   CREATE_CONTACT,
   FETCH_CONTACTS,
   FETCH_CONTACT,
@@ -25,102 +33,62 @@ const ContactState = ({ children }) => {
   const [state, dispatch] = useReducer(contactReducer, intialState);
 
   const createContact = async (contactData) => {
-    console.log(contactData);
-    try {
-      const { data } = await axios.post(`${apiUrl}/contacts`, contactData, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      dispatch({
-        type: CREATE_CONTACT,
-        payload: data,
-      });
-    } catch (error) {
-      console.log(error);
-      // dispatch({
-      //   type: CONTACT_ERROR,
-      //   payload: error.response.data,
-      // });
-    }
+    await createData(
+      `/contacts`,
+      dispatch,
+      contactData,
+      CREATE_CONTACT,
+      CONTACT_ERROR,
+    );
   };
 
-  const fetchContacts = async (groupId) => {
-    try {
-      let res;
-      if (groupId)
-        res = await axios.get(`${apiUrl}/contacts?group=${groupId}`, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-
-      dispatch({
-        type: FETCH_CONTACTS,
-        payload: res.data,
-      });
-    } catch (error) {
-      console.log(error);
-      // dispatch({
-      //   type: CONTACT_ERROR,
-      //   payload: error.response.data,
-      // });
-    }
-  };
+  const fetchContacts = async (groupId) =>
+    fetchDataList(
+      `/contacts?group=${groupId}`,
+      dispatch,
+      FETCH_CONTACTS,
+      CONTACT_ERROR,
+    );
 
   const fetchContact = async (id) => {
-    try {
-      const { data } = await axios.get(`${apiUrl}/contacts?id=${id}`, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      dispatch({
-        type: FETCH_CONTACT,
-        payload: data,
-      });
-    } catch (error) {
-      console.log(error);
-      dispatch({
-        type: CONTACT_ERROR,
-        payload: error.response.data.error,
-      });
-    }
+    fetchData(`/contacts?id=${id}`, dispatch, FETCH_CONTACT, CONTACT_ERROR);
   };
 
-  const editContact = async (id) => {
-    try {
-      const { data } = await axios.put(`${apiUrl}/contacts?id=${id}`, {
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      dispatch({
-        type: UPDATE_CONTACT,
-        payload: data,
-      });
-    } catch (error) {
-      console.log(error);
-      dispatch({
-        type: CONTACT_ERROR,
-        payload: error.response.data.error,
-      });
-    }
+  const editContact = async (id, contactData) => {
+    await updateData(
+      `/contacts?id=${id}`,
+      dispatch,
+      contactData,
+      UPDATE_CONTACT,
+      CONTACT_ERROR,
+    );
+    fetchDataList();
   };
 
   const deleteContact = async (id) => {
-    try {
-      const { data } = await axios.delete(`${apiUrl}/contacts?id=${id}`, {
-        headers: { 'Content-Type': 'application/json' },
-      });
+    await deleteData(
+      `/contacts?id=${id}`,
+      dispatch,
+      DELETE_CONTACT,
+      CONTACT_ERROR,
+    );
+    fetchDataList();
+  };
 
-      dispatch({
-        type: DELETE_CONTACT,
-        payload: data,
-      });
+  const createFromFileUpload = async (fileData) => {
+    try {
+      const { data } = await axios.post(
+        `${apiUrl}/contacts/create-from-file-upload`,
+        fileData,
+        {
+          headers: {
+            ContentType: 'text/csv',
+          },
+        },
+      );
+      console.log(data);
     } catch (error) {
       console.log(error);
-      dispatch({
-        type: CONTACT_ERROR,
-        payload: error.response.data.error,
-      });
     }
   };
 
@@ -135,6 +103,7 @@ const ContactState = ({ children }) => {
         fetchContact,
         editContact,
         deleteContact,
+        createFromFileUpload,
       }}
     >
       {children}

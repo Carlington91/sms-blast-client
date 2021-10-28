@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import Form from '../../components/presetMessage/Form';
-import Layout from '../../components/layout';
+import Layout from '../../components/layout/Layout';
 import PageTitle from '../../components/pageTitle';
 import MetaData from '../../components/MetaData';
 import { useEffect } from 'react';

@@ -1,15 +1,22 @@
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useAuth } from '../../context/auth/authContext';
 
 const Login = () => {
-  const { signUp } = useAuth();
+  const { signUp, user } = useAuth();
+  const history = useHistory();
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm({ mode: 'all' });
+
+  useEffect(() => {
+    user && history.push('/dashboard');
+    //eslint-disable-next-line
+  }, [user]);
 
   const onSubmit = (data) => {
     signUp(data);
