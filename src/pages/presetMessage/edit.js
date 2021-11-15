@@ -19,7 +19,7 @@ const EditPresetMessagePage = () => {
     return () => fetchPresetMessage(id);
   }, [id, fetchPresetMessage, presetMessage._id]);
 
-  console.log('id:', presetMessage);
+  // console.log('id:', presetMessage);
 
   const data = {
     title: 'Preset Message',

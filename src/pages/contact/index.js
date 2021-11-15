@@ -1,4 +1,5 @@
 import React from 'react';
+import { RiFileList3Line } from 'react-icons/ri';
 import ContactList from '../../components/contact/ContactList';
 import Layout from '../../components/layout/Layout';
 import MetaData from '../../components/MetaData';
@@ -14,7 +15,7 @@ const ContactListPage = () => {
   return (
     <Layout>
       <MetaData metaData={data.metaData} />
-      <PageTitle title={data.title} />
+      <PageTitle title={data.title} Icon={RiFileList3Line} />
       <ContactList />
     </Layout>
   );

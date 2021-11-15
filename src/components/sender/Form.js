@@ -5,7 +5,7 @@ import { useSender } from '../../context/sender/senderContext';
 const Form = () => {
   const { createSender, updateSender, sender } = useSender();
 
-  console.log(sender);
+  // console.log(sender);
 
   const {
     register,

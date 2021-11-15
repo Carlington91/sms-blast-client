@@ -5,12 +5,13 @@ import SenderList from '../../components/sender/SenderList';
 import Modal from '../../components/Modal';
 import { useSender } from '../../context/sender/senderContext';
 import { FaPlus } from 'react-icons/fa';
+import { HiClipboardList } from 'react-icons/hi';
 
 const SendersIDPage = () => {
   const { clearSenderForm } = useSender();
   return (
     <Layout>
-      <PageTitle title='Senders' />
+      <PageTitle title='Senders' Icon={HiClipboardList} />
       <button
         type='button'
         className='btn btn-primary shadow-sm'

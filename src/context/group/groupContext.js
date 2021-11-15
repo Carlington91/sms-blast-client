@@ -37,7 +37,7 @@ const GroupState = ({ children }) => {
     await fetchDataList(`/groups`, dispatch, FETCH_GROUPS, GROUP_ERROR);
 
   const fetchGroup = (id) =>
-    fetchData(`/groups?id=${id}`, dispatch, FETCH_GROUP, GROUP_ERROR);
+    fetchData(`/groups/group?id=${id}`, dispatch, FETCH_GROUP, GROUP_ERROR);
 
   const createGroup = async (groupData) => {
     await createData(`/groups`, dispatch, groupData, CREATE_GROUP, GROUP_ERROR);

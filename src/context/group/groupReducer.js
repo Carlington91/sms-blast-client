@@ -13,10 +13,11 @@ const groupReducer = (state, { type, payload }) => {
   switch (type) {
     case CREATE_GROUP:
       return { ...state, msg: payload.msg };
-    case FETCH_GROUPS:
-      return { groups: payload.results };
     case FETCH_GROUP:
-      return { ...state, group: payload.group };
+      return { ...state, group: payload.result };
+    case FETCH_GROUPS:
+      return { ...state, groups: payload.results };
+
     case UPDATE_GROUP:
       return { ...state, success: payload.success, msg: payload.msg };
     case DELETE_GROUP:

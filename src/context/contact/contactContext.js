@@ -27,6 +27,7 @@ const ContactState = ({ children }) => {
   const intialState = {
     contacts: [],
     contact: {},
+    success: '',
     error: '',
   };
 
@@ -43,7 +44,7 @@ const ContactState = ({ children }) => {
   };
 
   const fetchContacts = async (groupId) =>
-    fetchDataList(
+    await fetchDataList(
       `/contacts?group=${groupId}`,
       dispatch,
       FETCH_CONTACTS,
@@ -51,10 +52,10 @@ const ContactState = ({ children }) => {
     );
 
   const fetchContact = async (id) => {
-    fetchData(`/contacts?id=${id}`, dispatch, FETCH_CONTACT, CONTACT_ERROR);
+    await fetchData(`/contacts/${id}`, dispatch, FETCH_CONTACT, CONTACT_ERROR);
   };
 
-  const editContact = async (id, contactData) => {
+  const updateContact = async (id, contactData) => {
     await updateData(
       `/contacts?id=${id}`,
       dispatch,
@@ -62,7 +63,7 @@ const ContactState = ({ children }) => {
       UPDATE_CONTACT,
       CONTACT_ERROR,
     );
-    fetchDataList();
+    await fetchDataList();
   };
 
   const deleteContact = async (id) => {
@@ -72,7 +73,7 @@ const ContactState = ({ children }) => {
       DELETE_CONTACT,
       CONTACT_ERROR,
     );
-    fetchDataList();
+    await fetchDataList();
   };
 
   const createFromFileUpload = async (fileData) => {
@@ -97,11 +98,12 @@ const ContactState = ({ children }) => {
       value={{
         contacts: state.contacts,
         contact: state.contact,
+        success: state.success,
         error: state.error,
         createContact,
         fetchContacts,
         fetchContact,
-        editContact,
+        updateContact,
         deleteContact,
         createFromFileUpload,
       }}

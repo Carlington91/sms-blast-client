@@ -40,11 +40,10 @@ export const fetchData = async (endpoint, dispatch, type, errorType) => {
     });
   } catch (error) {
     console.log(error);
-    if (error) toast.error('Error deleting group');
-    // dispatch({
-    //   type: typeError,
-    //   payload: error.response.data.error,
-    // });
+    dispatch({
+      type: errorType,
+      payload: error.response.data.error,
+    });
   }
 };
 
@@ -69,12 +68,13 @@ export const createData = async (
       return;
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data.error.message);
 
     dispatch({
       type: errorType,
-      payload: error,
+      payload: error.response.data.error.message,
     });
+    toast.error(error.response.data.error.message);
   }
 };
 

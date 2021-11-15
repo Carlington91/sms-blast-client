@@ -1,38 +1,41 @@
 import { useWatch } from 'react-hook-form';
-const GroupDetail = ({ control }) => {
+
+const GroupDetail = ({ control, groups }) => {
   const group = useWatch({
     control,
     name: 'group',
     defaultValue: '',
   });
 
-  const message = useWatch({
+  const presetMessage = useWatch({
     control,
     name: 'message',
     defaultValue: '',
   });
 
+  const groupDetails = groups?.find((data) => data._id === group);
+
   return (
     <>
-      {(group || message) && (
+      {group || presetMessage ? (
         <div className='card my-3'>
           <div className='card-body'>
             {group ? (
               <div className='mb-3'>
                 <p className='fs-6'>
                   <span className='fw-bold'> Message will sent to:</span>{' '}
-                  <span className='text-primary'>{group} </span>
+                  <span className='text-primary'>{groupDetails.name} </span>
                 </p>
               </div>
             ) : (
               ''
             )}
 
-            {message ? (
+            {presetMessage ? (
               <>
                 <p className='fs-6'>
                   <span className='fw-bold'>Message Content:</span>{' '}
-                  <span>{message}</span>
+                  <span>{presetMessage}</span>
                 </p>
               </>
             ) : (
@@ -40,6 +43,8 @@ const GroupDetail = ({ control }) => {
             )}
           </div>
         </div>
+      ) : (
+        ''
       )}
     </>
   );

@@ -20,6 +20,7 @@ const CustomTable = memo((props) => {
     classes,
     onRowsPerPageChange,
     onSortChange,
+    onRowClick,
     labels,
     filterable,
     filterText,
@@ -85,6 +86,7 @@ const CustomTable = memo((props) => {
           tableHeaders={tableHeaders}
           labels={labels}
           data={data}
+          onRowClick={onRowClick}
           components={{
             TableBody: Components.TableBody,
             TableCell: Components.TableCell,

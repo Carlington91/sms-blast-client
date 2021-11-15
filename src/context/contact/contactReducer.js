@@ -10,9 +10,9 @@ import {
 const contactReducer = (state, { type, payload }) => {
   switch (type) {
     case CREATE_CONTACT:
-      return { contact: payload.contact };
+      return { contact: payload.contact, success: payload.success };
     case FETCH_CONTACTS:
-      return { contacts: payload.contacts };
+      return { contacts: payload.contacts, success: payload.success };
     case FETCH_CONTACT:
       return { ...state, contact: payload.contact };
     case UPDATE_CONTACT:

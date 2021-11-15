@@ -1,22 +1,61 @@
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
+import { useHistory } from 'react-router';
+import { useContact } from '../../context/contact/contactContext';
+import { formatter } from '../../helpers/formatPhoneNumber';
 
-const Form = ({ groups }) => {
+const Form = ({ groups, contact, edit }) => {
+  const intialValues = {
+    lastname: '',
+    firstname: '',
+    middlename: '',
+    phone: '',
+    email: '',
+    group: '',
+  };
+
+  const { updateContact, createContact, success } = useContact();
+  const history = useHistory();
   const {
     register,
     handleSubmit,
-    reset,
+    setValue,
+    watch,
     formState: { errors },
-  } = useForm({ mode: 'all' });
+  } = useForm({
+    mode: 'all',
+    defaultValues: intialValues,
+  });
+
+  useMemo(() => {
+    if (edit && contact) {
+      const { _id, updatedAt, createdAt, __v, group, ...others } = contact;
+      Object.entries(others).forEach(([key, val]) => {
+        setValue(key, val);
+      });
+      setValue('group', contact?.group?._id);
+    }
+  }, [setValue, contact, edit]);
 
   const onSubmit = async (data) => {
-    console.log(data);
-    reset();
+    if (edit && contact) {
+      updateContact(contact._id, data);
+      success && history.push('/contacts');
+      return;
+    }
+
+    createContact(data);
+    success && history.push('/contacts');
   };
 
   return (
     <div className='card p-md-3 border-top-0'>
       <div className='card-body'>
-        <h2 className='fs-5 mb-3'>Add New Contact</h2>
+        <h2 className='fs-5 mb-3'>
+          {edit && contact
+            ? `Updating ${contact.firstname} ${contact.lastname} `
+            : 'Add New Contact'}
+        </h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='row g-md-3 '>
@@ -91,9 +130,13 @@ const Form = ({ groups }) => {
                 <input
                   type='tel'
                   className={`form-control ${errors.phone ? 'is-invalid' : ''}`}
-                  id='phone'
                   placeholder=''
-                  {...register('phone', { required: 'This field is required' })}
+                  value={watch('phone') || ''}
+                  maxLength='14'
+                  {...register('phone', {
+                    required: 'This field is required',
+                    setValueAs: (v) => formatter(v),
+                  })}
                 />
                 <label htmlFor='phone'>Phone Number</label>
 
@@ -112,6 +155,7 @@ const Form = ({ groups }) => {
                   className='form-control'
                   id='dob'
                   placeholder=''
+                  {...register('dob', { valueAsDate: true })}
                 />
                 <label htmlFor='date'>Date of Birth</label>
               </div>
@@ -153,20 +197,23 @@ const Form = ({ groups }) => {
                   <option value=''>Select...</option>
                   {groups &&
                     groups.map((group) => (
-                      <option key={group._id} value={group.name}>
+                      <option key={group._id} value={group._id}>
                         {group.name}
                       </option>
                     ))}
                 </select>
                 <label htmlFor='groups'>Add to Group</label>
-
                 {errors.group && (
                   <span className='text-danger'>{errors.group.message}</span>
                 )}
               </div>
             </div>
           </div>
-          <button className='btn btn-primary shadow-sm'>Add Contact</button>
+          <div className='d-grid mt-5 shadow'>
+            <button className='btn btn-primary shadow-sm'>
+              {edit ? 'Update Contact' : 'Add Contact'}
+            </button>
+          </div>
         </form>
       </div>
     </div>

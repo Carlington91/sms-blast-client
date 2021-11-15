@@ -7,6 +7,9 @@ import {
   PRESET_MESSAGE_ERROR,
   SEND_GROUP_MESSAGE,
   GROUP_MESSAGE_ERROR,
+  FETCH_SENT_MESSAGES,
+  FETCH_SENT_MESSAGE,
+  SENT_MESSAGE_ERROR,
 } from './messageTypes';
 
 const messageReducer = (state, { type, payload }) => {
@@ -39,11 +42,22 @@ const messageReducer = (state, { type, payload }) => {
       };
     case SEND_GROUP_MESSAGE:
       return { ...state, success: payload.success, loading: false };
-
+    case FETCH_SENT_MESSAGES:
+      return {
+        sentMessages: payload.results,
+        success: payload.success,
+        loading: false,
+      };
+    case FETCH_SENT_MESSAGE:
+      return {
+        sentMessage: payload.result,
+        success: payload.success,
+        loading: false,
+      };
     case PRESET_MESSAGE_ERROR:
     case GROUP_MESSAGE_ERROR:
+    case SENT_MESSAGE_ERROR:
       return { ...state, error: payload, loading: false };
-
     default:
       return state;
   }

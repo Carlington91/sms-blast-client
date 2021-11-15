@@ -1,4 +1,5 @@
 import { FaPlus } from 'react-icons/fa';
+import { TiGroup } from 'react-icons/ti';
 import Form from '../../components/group/Form';
 import GroupList from '../../components/group/GroupList';
 import Layout from '../../components/layout/Layout';
@@ -21,7 +22,7 @@ const GroupPage = () => {
   return (
     <Layout>
       <MetaData metaData={data.metaData} />
-      <PageTitle title={data.title} />
+      <PageTitle title={data.title} Icon={TiGroup} />
 
       <button
         type='button'

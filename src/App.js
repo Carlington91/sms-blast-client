@@ -1,16 +1,18 @@
-import { useEffect, Suspense } from 'react';
+import { Suspense } from 'react';
 import axios from 'axios';
 import PrivateRoute from './routes/PrivateRoute';
-import { Switch, Route, useHistory } from 'react-router-dom';
-import { useAuth } from './context/auth/authContext';
+import { Switch, Route } from 'react-router-dom';
 import Loader from './components/Loader';
 import {
   DashboardPage,
   ContactListPage,
   CreateContactPage,
+  EditContactPage,
   PresetMessagesPage,
   CreatePresetMessagePage,
   EditPresetMessagePage,
+  SentMessagesPage,
+  SentMessagePage,
   Login,
   Register,
   Profile,
@@ -24,20 +26,6 @@ import {
 axios.defaults.withCredentials = true;
 
 const App = () => {
-  const { isLoggedIn, user } = useAuth();
-
-  const history = useHistory();
-
-  useEffect(() => {
-    if (user || history.pathname === '/') {
-      return false;
-    } else {
-      isLoggedIn();
-    }
-
-    //eslint-disable-next-line
-  }, [user, isLoggedIn, history]);
-
   return (
     <Suspense fallback={<Loader />}>
       <Switch>
@@ -45,6 +33,7 @@ const App = () => {
         <PrivateRoute exact path='/users/profile' component={Profile} />
         <PrivateRoute exact path='/dashboard' component={DashboardPage} />
         <PrivateRoute exact path='/contact/new' component={CreateContactPage} />
+        <PrivateRoute exact path='/contact/edit' component={EditContactPage} />
         <PrivateRoute exact path='/contacts' component={ContactListPage} />
         <PrivateRoute
           exact
@@ -67,6 +56,16 @@ const App = () => {
           exact
           path='/group/message'
           component={GroupMessagePage}
+        />
+        <PrivateRoute
+          exact
+          path='/sent-messages'
+          component={SentMessagesPage}
+        />
+        <PrivateRoute
+          exact
+          path='/sent-messages/:id'
+          component={SentMessagePage}
         />
         <PrivateRoute
           exact

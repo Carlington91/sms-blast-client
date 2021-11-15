@@ -12,6 +12,7 @@ import {
   // RESET_PASSWORD,
   AUTH_ERROR,
 } from './authTypes';
+import { toast } from 'react-toastify';
 
 export const authContext = createContext();
 export const useAuth = () => useContext(authContext);
@@ -20,6 +21,7 @@ const AuthState = ({ children }) => {
   const intialState = {
     user: null,
     loading: true,
+    isAuth: false,
     success: '',
     error: '',
   };
@@ -27,7 +29,6 @@ const AuthState = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, intialState);
 
   const signUp = async (userData) => {
-    console.log(userData);
     try {
       const { data } = await axios.post(`${apiUrl}/auth/register`, userData, {
         headers: { 'Content-Type': 'application/json' },
@@ -46,7 +47,7 @@ const AuthState = ({ children }) => {
     }
   };
 
-  const login = async (credentials) => {
+  const login = async (credentials, history) => {
     try {
       const { data } = await axios.post(`${apiUrl}/auth/login`, credentials, {
         headers: { 'Content-Type': 'application/json' },
@@ -56,12 +57,13 @@ const AuthState = ({ children }) => {
         type: LOGIN,
         payload: data,
       });
+      data && history.push('/dashboard');
     } catch (error) {
-      console.log(error.response);
       dispatch({
         type: AUTH_ERROR,
-        payload: error.response.data,
+        payload: error.response.data.message,
       });
+      toast.error(error.response.data.message);
     }
   };
 
@@ -103,6 +105,7 @@ const AuthState = ({ children }) => {
         loading: state.loading,
         success: state.success,
         error: state.error,
+        isAuth: state.isAuth,
         signUp,
         login,
         logout,

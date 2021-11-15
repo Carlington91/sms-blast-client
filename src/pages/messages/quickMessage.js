@@ -2,19 +2,20 @@ import Layout from '../../components/layout/Layout';
 import PageTitle from '../../components/pageTitle';
 import MetaData from '../../components/MetaData';
 import QuickMessageForm from '../../components/sendMessage/QuickMessageForm';
+import { RiMailLine } from 'react-icons/ri';
 
 const QuickMessagePage = () => {
   const data = {
-    title: 'Groups',
+    title: 'Quick Message',
     metaData: {
-      title: 'Groups',
+      title: 'Quick Message',
     },
   };
 
   return (
     <Layout>
       <MetaData metaData={data.metaData} />
-      <PageTitle title={data.title} />
+      <PageTitle title={data.title} Icon={RiMailLine} />
       <QuickMessageForm />
     </Layout>
   );

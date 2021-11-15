@@ -4,7 +4,7 @@ import { useHistory } from 'react-router';
 import { useMessage } from '../../context/message/messageContext';
 
 const Form = ({ presetMessageData, create }) => {
-  const { createPresetMessage, updatePresetMessage } = useMessage();
+  const { createPresetMessage, updatePresetMessage, success } = useMessage();
   const [edit, setEdit] = useState(false);
   const history = useHistory();
 
@@ -32,26 +32,29 @@ const Form = ({ presetMessageData, create }) => {
     }
 
     createPresetMessage(data);
-    history.push('/preset-messages');
-    reset();
+    if (success) {
+      history.push('/preset-messages');
+      reset();
+    }
   };
 
   return (
-    <div className='card p-md-4 col-md-10 col-lg-8'>
-      <div className='card-body'>
+    <div className='card'>
+      <div className='card-header pt-3'>
         {create ? (
-          <h2 className='fs-5 mb-3'>Add Preset Message</h2>
+          <h4 className='fs-5'>Add Preset Message</h4>
+        ) : !edit && presetMessageData ? (
+          <button
+            className='btn btn-secondary btn-sm mb-3'
+            onClick={() => setEdit(true)}
+          >
+            Edit Message
+          </button>
         ) : (
-          !edit &&
-          presetMessageData && (
-            <button
-              className='btn btn-secondary btn-sm mb-3'
-              onClick={() => setEdit(true)}
-            >
-              Edit Message
-            </button>
-          )
+          <h4 className='fs-5'>Editing "{presetMessageData.title}"</h4>
         )}
+      </div>
+      <div className='card-body py-5'>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className='mb-3'>
             <div className='form-floating'>
@@ -92,8 +95,12 @@ const Form = ({ presetMessageData, create }) => {
             )}
           </div>
           {!presetMessageData ? (
-            <div className='mt-4'>
-              <button className='btn btn-primary shadow-sm'>Add Message</button>
+            <div className='d-grid'>
+              <div className='mt-4'>
+                <button className='btn btn-primary shadow-sm'>
+                  Add Message
+                </button>
+              </div>
             </div>
           ) : (
             edit && (

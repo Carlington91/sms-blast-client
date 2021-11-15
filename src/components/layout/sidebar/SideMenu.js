@@ -20,26 +20,16 @@ const SideMenu = () => {
         />
 
         <div className='mt-3'>
-          <span className='sidebar-label'>Messages</span>
+          <span className='sidebar-label'>Send Message</span>
           <SidebarOption
-            label='Create Message'
-            to='/create-preset-message'
-            Icon={BiMessageAdd}
+            label='Group Message'
+            to='/group/message'
+            Icon={RiMessage2Line}
           />
           <SidebarOption
-            label='View Message'
-            to='/preset-messages'
-            Icon={BiMessageDetail}
-          />
-        </div>
-
-        <div className='mt-3'>
-          <span className='sidebar-label'>Groups & Sender ID</span>
-          <SidebarOption label='Groups' to='/groups' Icon={TiGroup} />
-          <SidebarOption
-            label='Sender IDs'
-            to='/sender-ids'
-            Icon={HiClipboardList}
+            label='Quick Message'
+            to='/quick-message'
+            Icon={RiMailLine}
           />
         </div>
 
@@ -58,16 +48,31 @@ const SideMenu = () => {
         </div>
 
         <div className='mt-3'>
-          <span className='sidebar-label'>Send Message</span>
+          <span className='sidebar-label'>Messages</span>
           <SidebarOption
-            label='Group Message'
-            to='/group/message'
-            Icon={RiMessage2Line}
+            label='Create Message'
+            to='/create-preset-message'
+            Icon={BiMessageAdd}
           />
           <SidebarOption
-            label='Quick Message'
-            to='/quick-message'
-            Icon={RiMailLine}
+            label='Preset Messages'
+            to='/preset-messages'
+            Icon={BiMessageDetail}
+          />
+          <SidebarOption
+            label='Message History'
+            to='/sent-messages'
+            Icon={BiMessageDetail}
+          />
+        </div>
+
+        <div className='mt-3'>
+          <span className='sidebar-label'>Groups & Sender ID</span>
+          <SidebarOption label='Groups' to='/groups' Icon={TiGroup} />
+          <SidebarOption
+            label='Sender IDs'
+            to='/sender-ids'
+            Icon={HiClipboardList}
           />
         </div>
       </ul>

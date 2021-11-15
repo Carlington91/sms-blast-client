@@ -46,7 +46,7 @@ const GroupList = () => {
 
   return (
     <section className='mt-3'>
-      <div className='card shadow-sm py-3'>
+      <div className='card py-3'>
         <div className='card-body'>
           <CustomTable
             tableHeaders={header}

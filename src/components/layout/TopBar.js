@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { BiDotsVerticalRounded } from 'react-icons/bi';
+import { BiMenu } from 'react-icons/bi';
 import { useAuth } from '../../context/auth/authContext';
 import Logo from '../branding';
 
@@ -15,56 +15,39 @@ const Topbar = () => {
   const { user, logout } = useAuth();
 
   return (
-    <nav className='navbar navbar-expand-lg navbar-light bg-white shadow-sm top-nav'>
-      <div className='container-fluid'>
+    <nav className=' navbar-light bg-white top-nav'>
+      <div className='d-flex align-items-center justify-content-between mx-3 mx-md-0 top-nav-inner'>
         <div className='d-flex'>
           <Logo />
+
           <button
-            className='navbar-toggler border-0 side-toggler'
+            className='sidebar-toggler border-0 '
             type='button'
             data-bs-toggle='offcanvas'
             data-bs-target='#offcanvas'
             aria-controls='offcanvas'
           >
-            <BiDotsVerticalRounded />
+            <BiMenu />
           </button>
         </div>
-        <button
-          className='navbar-toggler'
-          type='button'
-          data-bs-toggle='collapse'
-          data-bs-target='#navbarContent'
-          aria-controls='navbarContent'
-          aria-expanded='false'
-          aria-label='Toggle navigation'
-        >
-          <span className='navbar-toggler-icon'></span>
-        </button>
-        <div className='collapse navbar-collapse top-nav' id='navbarContent'>
-          <ul className='navbar-nav ms-auto mb-2 mb-lg-0'>
-            <div className='nav-item dropdown'>
-              <div
-                className='nav-link dropdown-toggle'
-                id='navbarDropdown'
-                role='button'
-                data-bs-toggle='dropdown'
-                aria-expanded='false'
-              >
-                {user && user.firstname}
-              </div>
-              <ul
-                className='dropdown-menu dropdown-menu-lg-end'
-                aria-labelledby='navbarDropdown'
-              >
-                <DropdownLinks to='/users/profile' label='Profile' />
-                <li>
-                  <hr className='dropdown-divider' />
-                </li>
-                <button className='dropdown-item' onClick={logout}>
-                  Logout
-                </button>
-              </ul>
-            </div>
+
+        <div className='dropdown me-3'>
+          <span
+            className='dropdown-toggle'
+            type='button'
+            id='dropdownMenu'
+            data-bs-toggle='dropdown'
+            aria-expanded='false'
+          >
+            {user && user.firstname}
+          </span>
+          <ul className='dropdown-menu' aria-labelledby='dropdownMenu'>
+            <DropdownLinks label='Profile' to='/user/profile' />
+            <DropdownLinks label='Profile' to='/user/profile' />
+            <hr className='dropdown-divider' />
+            <span className='dropdown-item btn-logout' onClick={() => logout()}>
+              Login
+            </span>
           </ul>
         </div>
       </div>

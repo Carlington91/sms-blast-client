@@ -9,9 +9,12 @@ const MessageList = () => {
     useMessage();
 
   useEffect(() => {
-    fetchPresetMessages();
-    // eslint-disable-next-line
-  }, []);
+    if (presetMessages.length > 0) {
+      return;
+    } else {
+      fetchPresetMessages();
+    }
+  }, [presetMessages, fetchPresetMessages]);
 
   const handleDelete = (id) => {
     deletePresetMessage(id);
@@ -47,7 +50,7 @@ const MessageList = () => {
 
   return (
     <section>
-      <div className='card shadow-sm py-3'>
+      <div className='card py-3'>
         <div className='card-body'>
           <CustomTable
             tableHeaders={header}

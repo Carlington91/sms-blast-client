@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { BiUserPlus } from 'react-icons/bi';
 import Form from '../../components/contact/Form';
 import UploadForm from '../../components/contact/UploadForm';
 import NavTabButton from '../../components/elements/NavTabButton';
@@ -25,7 +26,7 @@ const CreateContactPage = () => {
   return (
     <Layout>
       <MetaData metaData={data.metaData} />
-      <PageTitle title={data.title} />
+      <PageTitle title={data.title} Icon={BiUserPlus} />
 
       <nav>
         <div className='nav nav-tabs' id='nav-tab' role='tablist'>

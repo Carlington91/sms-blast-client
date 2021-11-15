@@ -11,18 +11,15 @@ import {
 const authReducer = (state, { type, payload }) => {
   switch (type) {
     case REGISTER:
-      return { user: payload.user };
+      return { user: payload.user, isAuth: false };
     case LOGIN:
-      return {
-        ...state,
-        user: payload.user,
-      };
+      return {user: payload.user,isAuth: true};
     case LOGOUT:
-      return { user: '' };
+      return { user: '', isAuth: false };
     case IS_LOGGED_IN:
-      return { ...state, user: payload.user, loading: false };
+      return {  user: payload.user,isAuth:true, loading: false };
     case AUTH_ERROR:
-      return { error: payload };
+      return { error: payload, isAuth: false };
     default:
       return state;
   }

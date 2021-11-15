@@ -118,10 +118,8 @@ const UploadForm = ({ groups }) => {
             )}
           </div>
 
-          <div className='mt-3'>
-            <button className='btn btn-primary shadow-sm'>
-              Upload Contact
-            </button>
+          <div className='d-grid mt-5 shadow-sm'>
+            <button className='btn btn-primary'>Upload Contact</button>
           </div>
         </form>
       </div>

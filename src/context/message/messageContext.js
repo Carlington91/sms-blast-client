@@ -18,6 +18,9 @@ import {
   PRESET_MESSAGE_ERROR,
   SEND_GROUP_MESSAGE,
   GROUP_MESSAGE_ERROR,
+  FETCH_SENT_MESSAGES,
+  FETCH_SENT_MESSAGE,
+  SENT_MESSAGE_ERROR,
 } from './messageTypes';
 
 export const messageContext = createContext();
@@ -27,6 +30,8 @@ const MessageState = ({ children }) => {
   const intialState = {
     presetMessages: [],
     presetMessage: {},
+    sentMessages: [],
+    sentMessage: {},
     success: '',
     error: '',
     loading: true,
@@ -128,11 +133,29 @@ const MessageState = ({ children }) => {
     );
   };
 
+  const fetchSentMessages = async () =>
+    fetchDataList(
+      `/messages/sent-messages`,
+      dispatch,
+      FETCH_SENT_MESSAGES,
+      SENT_MESSAGE_ERROR,
+    );
+
+  const fetchSentMessage = async (id) =>
+    fetchData(
+      `/messages/sent-messages/${id}`,
+      dispatch,
+      FETCH_SENT_MESSAGE,
+      SENT_MESSAGE_ERROR,
+    );
+
   return (
     <messageContext.Provider
       value={{
         presetMessages: state.presetMessages,
         presetMessage: state.presetMessage,
+        sentMessages: state.sentMessages,
+        sentMessage: state.sentMessage,
         success: state.success,
         error: state.error,
         loading: state.loading,
@@ -147,6 +170,8 @@ const MessageState = ({ children }) => {
         // setGroupUpdateForm,
         // clearGroupForm,
         sendGroupMessage,
+        fetchSentMessages,
+        fetchSentMessage,
       }}
     >
       {children}

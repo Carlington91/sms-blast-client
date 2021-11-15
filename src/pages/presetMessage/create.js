@@ -2,6 +2,7 @@ import Form from '../../components/presetMessage/Form';
 import Layout from '../../components/layout/Layout';
 import PageTitle from '../../components/pageTitle';
 import MetaData from '../../components/MetaData';
+import { BiMessageAdd } from 'react-icons/bi';
 
 const CreatePresetMessagePage = () => {
   const data = {
@@ -14,7 +15,7 @@ const CreatePresetMessagePage = () => {
   return (
     <Layout>
       <MetaData metaData={data.metaData} />
-      <PageTitle title={data.title} />
+      <PageTitle title={data.title} Icon={BiMessageAdd} />
       <Form create />
     </Layout>
   );

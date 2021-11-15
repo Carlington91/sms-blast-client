@@ -1,23 +1,24 @@
 import Layout from '../../components/layout/Layout';
-import MessageList from '../../components/presetMessage/MessageList';
-import MetaData from '../../components/MetaData';
 import PageTitle from '../../components/pageTitle';
+import MetaData from '../../components/MetaData';
+import SentMessage from '../../components/sendMessage/SentMessage';
 import { BiMessageDetail } from 'react-icons/bi';
 
-const MessagesPage = () => {
+const SentMessagePage = () => {
   const data = {
-    title: 'Preset Messages',
+    title: 'Sent Message',
     metaData: {
-      title: 'Preset Messages',
+      title: 'Sent Message',
     },
   };
+
   return (
     <Layout>
       <MetaData metaData={data.metaData} />
       <PageTitle title={data.title} Icon={BiMessageDetail} />
-      <MessageList />
+      <SentMessage />
     </Layout>
   );
 };
 
-export default MessagesPage;
+export default SentMessagePage;
